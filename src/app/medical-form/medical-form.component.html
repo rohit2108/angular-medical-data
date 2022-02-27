@@ -1,0 +1,26 @@
+<form [formGroup]="medicalForm" (ngSubmit)="onSubmit()">
+  <div *ngFor="let control of drugHistoryData">
+    <label for=""
+      >{{ control.label }}
+      <span *ngIf="control.unit">{{ "(in " + control.unit + ")" }}</span>
+    </label>
+    <div *ngIf="!control?.items; else dropDownBlock">
+      <input
+        [type]="control.type"
+        [formControlName]="control.key"
+        [readonly]="control.isReadonly"
+        [required]="control.isRequired"
+      />
+    </div>
+    <ng-template #dropDownBlock>
+      <select [formControlName]="control.key">
+        <option *ngFor="let value of control?.items" [value]="value.value">
+          {{ value.value }}
+        </option>
+      </select>
+    </ng-template>
+  </div>
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
